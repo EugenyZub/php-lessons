@@ -1,19 +1,24 @@
 <?php  
-	$books = array("451° по Фаренгейту", "Шантарам", "1984", "Мастер и Маргарита", "Три товарища", "Портрет Дориана Грея", "Вино из одуванчиков", "Цветы для Элджернона", "Над пропастью во ржи", "Маленький принц", "Анна Каренина", "Сто лет одиночества", "Тень горы", "Атлант расправил плечи" );
+	if ( !empty($_POST) ) {
+		$message = "Вам пришло новое сообщение с сайта \n" 
+				 . "Имя отправителя: " . $_POST["userName"] . "\n"
+				 . "Email Отправителя: " . $_POST["userEmail"] . "\n"
+				 . "Сообщение: \n" . $_POST["message"];
 
-	 echo "Список книг без использования тэгов списка: <br><br>";
+		$headers = "From: info@mail.ru";
+		$resultMail = mail( "evgeniys1@tut.by", "Сообщение с сайта", $message, $headers );
 
-	 //Без тэгов списка
-	 for ($i = 0; $i < count($books); $i++ ) {
-	 	echo $i + 1 . "." . $books[$i]; 
-	 	echo "<br>";
-	 }
-
-	 echo "<br> Список книг с использованием тэга ol: <br>";
-	 //С тэгом ol
-	 echo "<ol>";
-	 for ($i = 0; $i < count($books); $i++ ) {
-	 	echo "<li> $books[$i] </li>"; 
-	 }
-	 echo "</ol>";
+		if ( $resultMail ) {
+			echo "Форма отправлено успешно";
+		} else {
+			echo "Что-то пошло не так";
+		}
+	}
 ?>
+
+ <form action ="index.php" method ="post">
+ 	<input type="text" name="userName" placeholder="Ваше имя"><br>
+ 	<input type="text" name="userEmail" placeholder="Email"><br>
+ 	<textarea name="message" id="" cols="30" rows="10" placeholder="Сообщение"></textarea><br>
+	<input type="submit" value="send form">
+</form>
